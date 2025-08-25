@@ -27,7 +27,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: infra
+        working-directory: iam-governance/infra
 
     steps:
       - name: Checkout do código
