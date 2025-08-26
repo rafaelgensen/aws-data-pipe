@@ -3,12 +3,12 @@ provider "aws" {
 }
 
 # Bucket 1 - One Zone IA
-resource "aws_s3_bucket" "raw_data" {
-  bucket = "raw_data_663354324751"
+resource "aws_s3_bucket" "staging-cinema-data" {
+  bucket = "staging-cinema-data-663354324751"
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_raw_data" {
-  bucket = aws_s3_bucket.raw_data.id
+resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_staging-cinema-data" {
+  bucket = aws_s3_bucket.staging-cinema-data.id
 
   rule {
     id     = "move-to-one-zone-ia"
@@ -24,12 +24,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_raw_data" {
 }
 
 # Bucket 2 - One Zone IA
-resource "aws_s3_bucket" "silver_data" {
-  bucket = "silver_data_663354324751"
+resource "aws_s3_bucket" "silver-cinema-data" {
+  bucket = "silver-cinema-data-663354324751"
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_silver_data" {
-  bucket = aws_s3_bucket.silver_data.id
+resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_silver-cinema-data" {
+  bucket = aws_s3_bucket.silver-cinema-data.id
 
   rule {
     id     = "move-to-one-zone-ia"
@@ -45,18 +45,18 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_silver_data" {
 }
 
 # Bucket 3 - Standard (default)
-resource "aws_s3_bucket" "gold_data" {
-  bucket = "gold_data_663354324751"
+resource "aws_s3_bucket" "fact-cinema-data" {
+  bucket = "fact-cinema-data_663354324751"
 }
 
 # Bucket de logs
 resource "aws_s3_bucket" "log_bucket" {
-  bucket = "logs_bucket_prod_663354324751"
+  bucket = "logs-bucket-cinema-prod_663354324751"
 }
 
 # Habilitar logging
 resource "aws_s3_bucket_logging" "data_logging" {
-  bucket = aws_s3_bucket.gold_data.id
+  bucket = aws_s3_bucket.fact-cinema-data.id
 
   target_bucket = aws_s3_bucket.log_bucket.id
   target_prefix = "logs/"
