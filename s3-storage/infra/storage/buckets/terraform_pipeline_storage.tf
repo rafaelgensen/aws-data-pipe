@@ -14,6 +14,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_raw_data" {
     id     = "move-to-one-zone-ia"
     status = "Enabled"
 
+    filter {}
+
     transition {
       days          = 0
       storage_class = "ONEZONE_IA"
@@ -32,6 +34,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_silver_data" {
   rule {
     id     = "move-to-one-zone-ia"
     status = "Enabled"
+
+    filter {}
 
     transition {
       days          = 0
