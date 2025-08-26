@@ -27,7 +27,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: iam-governance/infra
+        working-directory: s3-storage/infra
 
     steps:
       - name: Checkout do código
