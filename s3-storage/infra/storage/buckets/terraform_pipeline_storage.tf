@@ -4,7 +4,7 @@ provider "aws" {
 
 # Bucket 1 - One Zone IA
 resource "aws_s3_bucket" "raw_data" {
-  bucket = "raw_data"
+  bucket = "raw_data_663354324751"
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_raw_data" {
@@ -25,7 +25,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_raw_data" {
 
 # Bucket 2 - One Zone IA
 resource "aws_s3_bucket" "silver_data" {
-  bucket = "silver_data"
+  bucket = "silver_data_663354324751"
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_silver_data" {
@@ -46,12 +46,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_silver_data" {
 
 # Bucket 3 - Standard (default)
 resource "aws_s3_bucket" "gold_data" {
-  bucket = "gold_data"
+  bucket = "gold_data_663354324751"
 }
 
 # Bucket de logs
 resource "aws_s3_bucket" "log_bucket" {
-  bucket = "logs-bucket-prod"
+  bucket = "logs_bucket_prod_663354324751"
 }
 
 # Habilitar logging
