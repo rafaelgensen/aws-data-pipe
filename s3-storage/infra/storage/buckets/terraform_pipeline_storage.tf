@@ -17,7 +17,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_staging-cinema-data"
     filter {}
 
     transition {
-      days          = 0
+      days          = 30
       storage_class = "ONEZONE_IA"
     }
   }
@@ -38,7 +38,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_silver-cinema-data" 
     filter {}
 
     transition {
-      days          = 0
+      days          = 30
       storage_class = "ONEZONE_IA"
     }
   }
@@ -46,12 +46,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifecycle_silver-cinema-data" 
 
 # Bucket 3 - Standard (default)
 resource "aws_s3_bucket" "fact-cinema-data" {
-  bucket = "fact-cinema-data_663354324751"
+  bucket = "fact-cinema-data-663354324751"
 }
 
 # Bucket de logs
 resource "aws_s3_bucket" "log_bucket" {
-  bucket = "logs-bucket-cinema-prod_663354324751"
+  bucket = "logs-bucket-cinema-prod-663354324751"
 }
 
 # Habilitar logging
