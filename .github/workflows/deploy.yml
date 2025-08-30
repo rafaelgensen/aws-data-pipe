@@ -1,0 +1,69 @@
+name: Deploy Glue Feature Store
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      destroy:
+        description: "Deseja destruir os recursos?"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
+
+jobs:
+
+  defaults:
+  run:
+    working-directory: glue-jobs
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Configurar credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Compactar código do Glue Job
+        run: |
+          mkdir -p build
+          cp src/filter_script.py build/filter_script.py
+
+          cd src
+          zip -r ../build/filter_script.zip filter_script.py
+          cd ..
+
+      - name: Subir script para o S3
+        run: |
+          aws s3 cp build/filter_script.py s3://artifactory-6633-5432-4751/filter_script/filter_script.py
+          aws s3 cp build/filter_script.zip s3://artifactory-6633-5432-4751/filter_script/filter_script.zip
+
+      - name: Instalar Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.7
+
+      - name: Terraform Init
+        working-directory: ./infra
+        run: terraform init
+
+      - name: Terraform Apply ou Destroy
+        working-directory: ./infra
+        run: |
+          if [ "${{ github.event.inputs.destroy }}" == "true" ]; then
+            echo "⚠️ Destruindo infraestrutura..."
+            terraform destroy -auto-approve
+          else
+            echo "🚀 Aplicando infraestrutura..."
+            terraform apply -auto-approve
+          fi
