@@ -21,8 +21,8 @@ on:
 jobs:
 
   defaults:
-  run:
-    working-directory: glue-jobs
+    run:
+      working-directory: glue-jobs
 
   deploy:
     runs-on: ubuntu-latest
