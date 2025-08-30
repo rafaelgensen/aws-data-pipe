@@ -1,8 +1,12 @@
 name: Deploy Glue Feature Store
 
 on:
-  push:
-    branches: [main]
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
   workflow_dispatch:
     inputs:
       destroy:
