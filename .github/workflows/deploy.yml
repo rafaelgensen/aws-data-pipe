@@ -7,6 +7,7 @@ on:
     types:
       - opened
       - synchronize
+
   workflow_dispatch:
     inputs:
       destroy:
@@ -19,13 +20,11 @@ on:
           - "true"
 
 jobs:
-
-  defaults:
-    run:
-      working-directory: glue-jobs
-
   deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: glue-jobs
 
     steps:
       - name: Checkout código
@@ -47,7 +46,7 @@ jobs:
           zip -r ../build/filter_script.zip filter_script.py
           cd ..
 
-      - name: Subir script para o S3
+      - name: Subir scripts para o S3
         run: |
           aws s3 cp build/filter_script.py s3://artifactory-6633-5432-4751/filter_script/filter_script.py
           aws s3 cp build/filter_script.zip s3://artifactory-6633-5432-4751/filter_script/filter_script.zip
@@ -64,7 +63,7 @@ jobs:
       - name: Terraform Apply ou Destroy
         working-directory: ./infra
         run: |
-          if [ "${{ github.event.inputs.destroy }}" == "true" ]; then
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.destroy }}" == "true" ]; then
             echo "⚠️ Destruindo infraestrutura..."
             terraform destroy -auto-approve
           else
